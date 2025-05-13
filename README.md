@@ -1,113 +1,126 @@
-# Prototype d’un Measurement Framework pour le parcours client”.
+# 🚀 Project Objective
 
-## 🚀 Objectif du projet
-Construire un mini-pipeline de bout en bout pour mesurer l’efficacité marketing sur tout le cycle d’achat : ingestion et structuration de logs web fictifs, définition d’un funnel, analyses descriptives et prédictives, et mise en place d’un tableau de bord interactif local (sans coût).
+Build an end-to-end mini-pipeline to measure marketing effectiveness across the full purchase cycle: ingestion and structuring of synthetic web logs, funnel definition, descriptive and predictive analyses, and setup of a local interactive dashboard (cost-free).
 
-## 📅 Plan détaillé sur 1 semaine
-``` text
-Jour	Tâches principales
-Jour 1	
-• Initialisation du repo Git et de l’environnement virtuel
-• Collecte/génération de jeu de données synthétique (logs page-view, clic, achat)
-Jour 2	
-• Ingestion des données dans SQLite (ou Pandas)
-• Scripts Python de nettoyage et de normalisation
-Jour 3	
-• Conception du funnel (ex : visite → ajout panier → achat)
-• Calcul d’indicateurs clés (taux de conversion, drop-off)
-Jour 4	
-• Modèle prédictif simple (logistic regression) pour estimer la probabilité d’achat
-• Évaluation (AUC, confusion matrix)
-Jour 5	
-• Simulation d’un test A/B (effet d’une nouvelle feature) et mesure d’impact
-• Statistiques de signification (test de proportions)
-Jour 6	
-• Création d’un mini-dashboard local avec Plotly Dash ou Streamlit
-• Visualisation des KPIs et des résultats du modèle
-Jour 7	
-• Rédaction du README, documentation des étapes et instructions d’exécution
-• Packaging (requirements.txt), finalisation du code et push Git
+## 📅 Detailed 1-week plan
+
+```text
+Day	Main tasks
+Day 1	
+• Initialize Git repo and virtual environment
+• Collect/generate synthetic dataset (page-view, click, purchase logs)
+Day 2	
+• Ingest data into SQLite (or Pandas)
+• Python scripts for cleaning and normalization
+Day 3	
+• Design the funnel (e.g.: visit → add-to-cart → purchase)
+• Compute key metrics (conversion rate, drop-off)
+Day 4	
+• Simple predictive model (logistic regression) to estimate purchase probability
+• Evaluation (AUC, confusion matrix)
+Day 5	
+• Simulate an A/B test (effect of a new feature) and measure impact
+• Significance statistics (proportion test)
+Day 6	
+• Create a mini local dashboard with Plotly Dash or Streamlit
+• Visualize KPIs and model results
+Day 7	
+• Write README, document steps and execution instructions
+• Packaging (`requirements.txt`), finalize code, and push to Git
 ```
 
-## ⚙️ Étapes de création du dépôt & structure
-Initialiser le projet
-```bash 
+## ⚙️ Repository setup & structure steps
+
+Initialize the project
+
+```bash
 mkdir criteo-measurement-proto && cd criteo-measurement-proto
 git init
 python -m venv venv
 .\venv\Scripts\activate
 pip install --upgrade pip
 touch requirements.txt
-Installer les dépendances
-Dans requirements.txt, listez :
+```
+
+Install dependencies
+In `requirements.txt`, list:
+
+```
 nginx
 pandas
 numpy
 sqlalchemy
 scikit-learn
 plotly
-dash         # ou streamlit
-pytest       # pour tests unitaires
-Puis :
+dash         # or streamlit
+pytest       # for unit tests
+```
+
+Then:
+
+```bash
 pip install -r requirements.txt
 ```
 
-``` text
+```text
 criteo-measurement-proto/
-├── data/                  # jeux de données (raw & processed)
-├── notebooks/             # analyses exploratoires
+├── data/                  # datasets (raw & processed)
+├── notebooks/             # exploratory analyses
 ├── src/
-│   ├── ingestion.py       # scripts d’import et nettoyage
-│   ├── modeling.py        # définition du funnel & modèles
-│   ├── evaluation.py      # fonctions d’évaluation et A/B test
-│   └── dashboard.py       # app Dash ou Streamlit
-├── tests/                 # tests unitaires pytest
-├── docs/                  # documentation et schémas
+│   ├── ingestion.py       # import and cleaning scripts
+│   ├── modeling.py        # funnel definition & models
+│   ├── evaluation.py      # evaluation functions and A/B test
+│   └── dashboard.py       # Dash or Streamlit app
+├── tests/                 # pytest unit tests
+├── docs/                  # documentation and diagrams
 ├── .gitignore
 └── README.md
-
 ```
-## Développement incrémental
 
-- Ingestion (src/ingestion.py): lire CSV, nettoyer, charger dans SQLite via SQLAlchemy ou conserver en Parquet.
+## Incremental development
 
-- Modeling (src/modeling.py): construire le funnel, préparer X, y, entraîner LogisticRegression.
+* **Ingestion** (`src/ingestion.py`): read CSV, clean, load into SQLite via SQLAlchemy or store as Parquet.
 
-- Evaluation (src/evaluation.py): métriques (accuracy, AUC), fonction de test de proportions pour un A/B simulé.
+* **Modeling** (`src/modeling.py`): build the funnel, prepare X, y, train `LogisticRegression`.
 
-- Dashboard (src/dashboard.py): afficher le funnel interactif, les courbes ROC, et les résultats du test A/B.
+* **Evaluation** (`src/evaluation.py`): metrics (accuracy, AUC), proportion test function for a simulated A/B.
 
-- Tests & qualité
+* **Dashboard** (`src/dashboard.py`): display interactive funnel, ROC curves, and A/B test results.
 
-## Écrire des tests simples dans tests/ pour valider qu’un jeu de données sample produit bien les bons KPI.
+* **Tests & quality**
 
-Lancer :
-```bash 
+Write simple tests in `tests/` to validate that a sample dataset produces the correct KPIs.
+
+Run:
+
+```bash
 pytest --maxfail=1 --disable-warnings -q
 ```
-## Dashboard :
-Des scripts Python modulaires pour ingestion, modélisation, évaluation et dashboard.
 
-Un dashboard interactif local (Dash ou Streamlit) mesurant :
+## Dashboard
 
-Le funnel complet (visites → achats)
+Modular Python scripts for ingestion, modeling, evaluation, and dashboard.
 
-La performance du modèle prédictif
+A local interactive dashboard (Dash or Streamlit) measuring:
 
-L’impact simulé d’une feature via A/B test
+* The full funnel (visits → purchases)
 
-Des tests unitaires garantissant la reproductibilité.
+* Predictive model performance
 
-Une documentation (texte + schémas) expliquant le pipeline.
+* Simulated feature impact via A/B test
 
-## Ce projet couvre :
+Unit tests ensuring reproducibility.
 
-- Mining de grandes données (logs synthétiques),
+Documentation (text + diagrams) explaining the pipeline.
 
-- Pipeline scalable (scripts modulaires, SQL/Parquet),
+## This project covers:
 
-- Analyses & tests (funnel, A/B, modélisation prédictive),
+* Large-scale data mining (synthetic logs),
 
-- Visualisation et reporting (dashboard interactif),
+* Scalable pipeline (modular scripts, SQL/Parquet),
 
-- Outils courants (Python, SQL, scikit-learn, Dash).
+* Analyses & tests (funnel, A/B, predictive modeling),
+
+* Visualization and reporting (interactive dashboard),
+
+* Common tools (Python, SQL, scikit-learn, Dash).
